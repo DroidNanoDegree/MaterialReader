@@ -29,7 +29,6 @@ import android.widget.TextView;
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.ArticleLoader;
 import com.sriky.materialreader.data.ItemsContract;
-import com.sriky.materialreader.ui.ArticleListActivity;
 import com.sriky.materialreader.ui.DynamicHeightNetworkImageView;
 import com.sriky.materialreader.ui.ImageLoaderHelper;
 

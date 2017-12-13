@@ -75,7 +75,7 @@ public class ArticleListFragment extends Fragment implements
                 return ArticleLoader.newAllArticlesInstance(getContext());
             }
 
-            default:{
+            default: {
                 throw new RuntimeException("Unsupported loaderId: " + i);
             }
         }
