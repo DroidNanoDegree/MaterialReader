@@ -31,6 +31,15 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     implementation files('libs/volley.jar')
 
+    /* Timber dependencies used for logging */
+    implementation 'com.jakewharton.timber:timber:4.6.0'
+
+    /* Event Bus */
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    /* Picasso */
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "com.android.support.test:runner:${androidTestLibVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${espressoLibVersion}"
