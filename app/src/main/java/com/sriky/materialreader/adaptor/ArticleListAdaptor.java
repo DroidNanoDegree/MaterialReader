@@ -16,7 +16,6 @@
 package com.sriky.materialreader.adaptor;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -28,9 +27,11 @@ import android.widget.TextView;
 
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.ArticleLoader;
-import com.sriky.materialreader.data.ItemsContract;
+import com.sriky.materialreader.event.Message;
 import com.sriky.materialreader.ui.DynamicHeightNetworkImageView;
 import com.sriky.materialreader.ui.ImageLoaderHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,15 +76,7 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
         final Context context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.list_item_article, parent, false);
-        final ViewHolder vh = new ViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(Intent.ACTION_VIEW,
-                        ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
-            }
-        });
-        return vh;
+        return new ViewHolder(view);
     }
 
     private Date parsePublishedDate() {
@@ -99,28 +92,39 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mCursor.moveToPosition(position);
-        holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
-        Date publishedDate = parsePublishedDate();
-        if (!publishedDate.before(START_OF_EPOCH.getTime())) {
+        if (mCursor != null && mCursor.moveToPosition(position)) {
+            holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+            Date publishedDate = parsePublishedDate();
+            if (!publishedDate.before(START_OF_EPOCH.getTime())) {
 
-            holder.subtitleView.setText(Html.fromHtml(
-                    DateUtils.getRelativeTimeSpanString(
-                            publishedDate.getTime(),
-                            System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                            DateUtils.FORMAT_ABBREV_ALL).toString()
-                            + "<br/>" + " by "
-                            + mCursor.getString(ArticleLoader.Query.AUTHOR)));
-        } else {
-            holder.subtitleView.setText(Html.fromHtml(
-                    outputFormat.format(publishedDate)
-                            + "<br/>" + " by "
-                            + mCursor.getString(ArticleLoader.Query.AUTHOR)));
+                holder.subtitleView.setText(Html.fromHtml(
+                        DateUtils.getRelativeTimeSpanString(
+                                publishedDate.getTime(),
+                                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                                DateUtils.FORMAT_ABBREV_ALL).toString()
+                                + "<br/>" + " by "
+                                + mCursor.getString(ArticleLoader.Query.AUTHOR)));
+            } else {
+                holder.subtitleView.setText(Html.fromHtml(
+                        outputFormat.format(publishedDate)
+                                + "<br/>" + " by "
+                                + mCursor.getString(ArticleLoader.Query.AUTHOR)));
+            }
+            holder.thumbnailView.setImageUrl(
+                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
+                    ImageLoaderHelper.getInstance(mContext).getImageLoader());
+            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+
+            //notify that data was loaded and pass the articleId so that ArticleActivity can
+            //load the details fragment for tablets.
+            if (position == 0) {
+                EventBus.getDefault().post(new Message.ArticleDataLoaded(
+                        mCursor.getLong(ArticleLoader.Query._ID)));
+            }
+
+            //set the tag which will be retrieved when the item is clicked.
+            holder.itemView.setTag(mCursor.getLong(ArticleLoader.Query._ID));
         }
-        holder.thumbnailView.setImageUrl(
-                mCursor.getString(ArticleLoader.Query.THUMB_URL),
-                ImageLoaderHelper.getInstance(mContext).getImageLoader());
-        holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
     }
 
     @Override
@@ -128,7 +132,7 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
         return mCursor == null ? 0 : mCursor.getCount();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public DynamicHeightNetworkImageView thumbnailView;
         public TextView titleView;
         public TextView subtitleView;
@@ -138,6 +142,12 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
             thumbnailView = (DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
             titleView = (TextView) view.findViewById(R.id.article_title);
             subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            EventBus.getDefault().post(new Message.ArticleClicked((long) view.getTag()));
         }
     }
 }

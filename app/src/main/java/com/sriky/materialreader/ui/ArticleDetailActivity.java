@@ -1,5 +1,6 @@
 package com.sriky.materialreader.ui;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -18,13 +19,14 @@ import android.view.WindowInsets;
 
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.ArticleLoader;
-import com.sriky.materialreader.data.ItemsContract;
 
 /**
  * An activity representing a single Article detail screen, letting you swipe between articles.
  */
 public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    public static final String ARTICLE_ID_BUNDLE_KEY = "article_id";
 
     private Cursor mCursor;
     private long mStartId;
@@ -99,12 +101,18 @@ public class ArticleDetailActivity extends AppCompatActivity
             });
         }
 
-        if (savedInstanceState == null) {
-            if (getIntent() != null && getIntent().getData() != null) {
-                mStartId = ItemsContract.Items.getItemId(getIntent().getData());
-                mSelectedItemId = mStartId;
-            }
+        Intent intent = getIntent();
+        if (intent == null) {
+            throw new RuntimeException("Cannot launch without intent!");
         }
+
+        Bundle data = intent.getExtras();
+        if (data == null || !data.containsKey(ARTICLE_ID_BUNDLE_KEY)) {
+            throw new RuntimeException("Activity requires ArticleId to be set with intent bundle!");
+        }
+
+        mStartId = data.getLong(ARTICLE_ID_BUNDLE_KEY);
+        mSelectedItemId = mStartId;
     }
 
     @Override

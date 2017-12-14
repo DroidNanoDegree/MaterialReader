@@ -9,6 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.UpdaterService;
+import com.sriky.materialreader.event.Message;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import timber.log.Timber;
 
@@ -19,7 +24,12 @@ import timber.log.Timber;
  * activity presents a grid of items as cards.
  */
 public class ArticleListActivity extends AppCompatActivity {
+    private static String SELECTED_ARTICLE_ID_BUNDLE_KEY = "selected_article_id";
     private boolean mIsRefreshing = false;
+    private boolean mTwoPane = false;
+    private boolean mCanUpdateDetailsFragment;
+    private long mPreviousSelectedArticleId = 0;
+
     private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -35,6 +45,7 @@ public class ArticleListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
 
+        mTwoPane = getResources().getBoolean(R.bool.isTablet);
         if (savedInstanceState == null) {
             Timber.plant(new Timber.DebugTree());
             refresh();
@@ -43,6 +54,11 @@ public class ArticleListActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.article_list_container, new ArticleListFragment())
                     .commit();
+
+            //flag to make sure details fragment isn't updated after configuration change.
+            mCanUpdateDetailsFragment = true;
+        } else if (mTwoPane && savedInstanceState.containsKey(SELECTED_ARTICLE_ID_BUNDLE_KEY)) {
+            mPreviousSelectedArticleId = savedInstanceState.getLong(SELECTED_ARTICLE_ID_BUNDLE_KEY);
         }
     }
 
@@ -55,16 +71,59 @@ public class ArticleListActivity extends AppCompatActivity {
         super.onStart();
         registerReceiver(mRefreshingReceiver,
                 new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
+        EventBus.getDefault().register(ArticleListActivity.this);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();
         unregisterReceiver(mRefreshingReceiver);
+        EventBus.getDefault().unregister(ArticleListActivity.this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putLong(SELECTED_ARTICLE_ID_BUNDLE_KEY, mPreviousSelectedArticleId);
+        super.onSaveInstanceState(outState);
     }
 
     private void updateRefreshingUI() {
         //TODO: This operation should occur in the articlelistfragment.
         Timber.e("TODO: Operation!");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveArticleDataLoaded(Message.ArticleDataLoaded event) {
+        if (mTwoPane && mCanUpdateDetailsFragment) {
+            updateArticleDetailFragment(event.getArcticleId());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onArcticleClicked(Message.ArticleClicked event) {
+        if (mTwoPane) {
+            updateArticleDetailFragment(event.getArcticleId());
+        } else {
+            Intent intent = new Intent(ArticleListActivity.this, ArticleDetailActivity.class);
+            intent.putExtra(ArticleDetailActivity.ARTICLE_ID_BUNDLE_KEY, event.getArcticleId());
+            startActivity(intent);
+        }
+    }
+
+    private void updateArticleDetailFragment(long articleId) {
+        //don't replace ArticleDetailFragment when
+        //there is a configuration change or a particular article is already displayed.
+        Timber.d("mPreviousSelectedArticleId: %d, articleId: %d", mPreviousSelectedArticleId,
+                articleId);
+        if (mPreviousSelectedArticleId != articleId) {
+            mPreviousSelectedArticleId = articleId;
+            Bundle arguments = new Bundle();
+            arguments.putLong(ArticleDetailFragment.ARG_ITEM_ID, articleId);
+            ArticleDetailFragment fragment = new ArticleDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.article_detail_container, fragment)
+                    .commit();
+        }
     }
 }
