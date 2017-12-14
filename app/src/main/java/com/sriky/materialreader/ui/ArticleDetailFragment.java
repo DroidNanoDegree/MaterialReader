@@ -27,7 +27,9 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.sriky.materialreader.R;
+import com.sriky.materialreader.customview.DrawInsetsFrameLayout;
 import com.sriky.materialreader.data.ArticleLoader;
+import com.sriky.materialreader.utils.ImageLoaderHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

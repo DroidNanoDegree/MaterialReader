@@ -1,4 +1,4 @@
-<com.sriky.materialreader.ui.DrawInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sriky.materialreader.customview.DrawInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
@@ -32,7 +32,7 @@
 
             </FrameLayout>
 
-            <com.sriky.materialreader.ui.MaxWidthLinearLayout
+            <com.sriky.materialreader.customview.MaxWidthLinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                     android:textSize="@dimen/detail_body_text_size"
                     android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier" />
 
-            </com.sriky.materialreader.ui.MaxWidthLinearLayout>
+            </com.sriky.materialreader.customview.MaxWidthLinearLayout>
         </FrameLayout>
     </ScrollView>
 
@@ -104,4 +104,4 @@
         android:elevation="@dimen/fab_elevation"
         android:contentDescription="@string/action_share" />
 
-</com.sriky.materialreader.ui.DrawInsetsFrameLayout>
+</com.sriky.materialreader.customview.DrawInsetsFrameLayout>

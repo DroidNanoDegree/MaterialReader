@@ -31,8 +31,6 @@ import com.squareup.picasso.Picasso;
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.ArticleLoader;
 import com.sriky.materialreader.event.Message;
-import com.sriky.materialreader.ui.DynamicHeightNetworkImageView;
-import com.sriky.materialreader.ui.ImageLoaderHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
