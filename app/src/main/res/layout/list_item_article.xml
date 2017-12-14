@@ -1,5 +1,6 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="4dp"
@@ -10,42 +11,78 @@
     android:focusable="true"
     android:foreground="?selectableItemBackground">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <!--suppress AndroidLintContentDescription -->
-        <com.sriky.materialreader.ui.DynamicHeightNetworkImageView
+        <ImageView
             android:id="@+id/thumbnail"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@color/photo_placeholder" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/article_list_item_thumbnail_height"
+            android:background="@color/photo_placeholder"
+            android:cropToPadding="false"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Scrim -->
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/article_list_item_thumbnail_height"
+            android:background="@drawable/article_list_scrim"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/article_title"
-            style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="4dp"
-            android:textColor="@color/ltgray"
+            android:layout_gravity="top"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
             android:ellipsize="end"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view" />
 
         <TextView
-            android:id="@+id/article_subtitle"
-            style="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/article_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:textColor="#6000"
-            android:maxLines="2"
-            android:ellipsize="end" />
-    </LinearLayout>
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintBottom_toTopOf="@+id/article_date"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/article_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:ellipsize="end"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/article_author"
+            app:layout_constraintStart_toStartOf="@+id/article_author" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

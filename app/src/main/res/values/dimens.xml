@@ -8,5 +8,6 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="detail_backdrop_height">112dp</dimen>
+    <dimen name="article_list_item_thumbnail_height">250dp</dimen>
 
 </resources>

@@ -24,8 +24,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
 
+    /* Platform */
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:support-v4:$supportLibVersion"
     implementation "com.android.support:support-v13:$supportLibVersion"
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
@@ -35,6 +36,7 @@ dependencies {
     implementation "com.android.support:support-vector-drawable:${supportLibVersion}"
     implementation "com.android.support:animated-vector-drawable:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     /* OkHttp */
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'

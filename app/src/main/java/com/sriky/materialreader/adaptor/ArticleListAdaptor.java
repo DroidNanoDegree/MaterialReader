@@ -17,14 +17,17 @@ package com.sriky.materialreader.adaptor;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.ArticleLoader;
 import com.sriky.materialreader.event.Message;
@@ -94,26 +97,27 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mCursor != null && mCursor.moveToPosition(position)) {
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+            holder.articleAuthorView.setText(mCursor.getString(ArticleLoader.Query.AUTHOR));
             Date publishedDate = parsePublishedDate();
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
 
-                holder.subtitleView.setText(Html.fromHtml(
+                holder.articleDateView.setText(Html.fromHtml(
                         DateUtils.getRelativeTimeSpanString(
                                 publishedDate.getTime(),
                                 System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
                                 DateUtils.FORMAT_ABBREV_ALL).toString()
-                                + "<br/>" + " by "
-                                + mCursor.getString(ArticleLoader.Query.AUTHOR)));
+                                + "<br/>"));
             } else {
-                holder.subtitleView.setText(Html.fromHtml(
+                holder.articleDateView.setText(Html.fromHtml(
                         outputFormat.format(publishedDate)
-                                + "<br/>" + " by "
-                                + mCursor.getString(ArticleLoader.Query.AUTHOR)));
+                                + "<br/>"));
             }
-            holder.thumbnailView.setImageUrl(
-                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
-                    ImageLoaderHelper.getInstance(mContext).getImageLoader());
-            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+            //TODO: Add a11y support!
+            Picasso.with(mContext)
+                    .load(Uri.parse(mCursor.getString(ArticleLoader.Query.THUMB_URL)))
+                    //.placeholder(R.drawable.ic_cake_loading)
+                    //.error(R.drawable.ic_error_pink)
+                    .into( holder.thumbnailView);
 
             //notify that data was loaded and pass the articleId so that ArticleActivity can
             //load the details fragment for tablets.
@@ -133,15 +137,17 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public DynamicHeightNetworkImageView thumbnailView;
+        public ImageView thumbnailView;
         public TextView titleView;
-        public TextView subtitleView;
+        public TextView articleAuthorView;
+        public TextView articleDateView;
 
         public ViewHolder(View view) {
             super(view);
-            thumbnailView = (DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
-            titleView = (TextView) view.findViewById(R.id.article_title);
-            subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
+            thumbnailView = view.findViewById(R.id.thumbnail);
+            titleView = view.findViewById(R.id.article_title);
+            articleAuthorView = view.findViewById(R.id.article_author);
+            articleDateView = view.findViewById(R.id.article_date);
             view.setOnClickListener(this);
         }
 
