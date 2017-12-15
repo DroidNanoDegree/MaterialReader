@@ -45,27 +45,45 @@
                     android:id="@+id/meta_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#333"
-                    android:orientation="horizontal"
+                    android:backgroundTint="#333"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical"
                     android:padding="@dimen/detail_metabar_vert_padding">
 
                     <TextView
-                        android:id="@+id/article_author"
+                        android:id="@+id/article_title"
                         style="?android:attr/textAppearanceLarge"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="start"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:gravity="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                    <TextView
-                        android:id="@+id/article_date"
-                        style="?android:attr/textAppearanceSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/article_author"
+                            style="?android:attr/textAppearanceLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                        <TextView
+                            android:id="@+id/article_date"
+                            style="?android:attr/textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <FrameLayout
