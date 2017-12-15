@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.UpdaterService;
 import com.sriky.materialreader.event.Message;
+import com.sriky.materialreader.utils.MaterialReaderUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -117,12 +118,10 @@ public class ArticleListActivity extends AppCompatActivity {
                 articleId);
         if (mPreviousSelectedArticleId != articleId) {
             mPreviousSelectedArticleId = articleId;
-            Bundle arguments = new Bundle();
-            arguments.putLong(ArticleDetailFragment.ARG_ITEM_ID, articleId);
-            ArticleDetailFragment fragment = new ArticleDetailFragment();
-            fragment.setArguments(arguments);
+            //add the fragment.
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.article_detail_container, fragment)
+                    .replace(R.id.article_detail_container,
+                            MaterialReaderUtils.buildArticleDetailFragment(articleId))
                     .commit();
         }
     }
