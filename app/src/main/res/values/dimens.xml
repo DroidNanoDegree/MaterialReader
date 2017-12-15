@@ -9,5 +9,6 @@
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="detail_backdrop_height">112dp</dimen>
     <dimen name="article_list_item_thumbnail_height">250dp</dimen>
+    <dimen name="app_bar_height">56dp</dimen>
 
 </resources>

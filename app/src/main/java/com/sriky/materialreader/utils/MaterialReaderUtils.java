@@ -15,6 +15,10 @@
 
 package com.sriky.materialreader.utils;
 
+import android.os.Bundle;
+
+import com.sriky.materialreader.ui.ArticleDetailFragment;
+
 /**
  * Utility Class for MaterialReader.
  */
@@ -22,4 +26,12 @@ package com.sriky.materialreader.utils;
 public final class MaterialReaderUtils {
 
     public static final int ARTICLE_LIST_LOADER = 1;
+
+    public static ArticleDetailFragment buildArticleDetailFragment(long articleId) {
+        Bundle arguments = new Bundle();
+        arguments.putLong(ArticleDetailFragment.ARG_ITEM_ID, articleId);
+        ArticleDetailFragment fragment = new ArticleDetailFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 }

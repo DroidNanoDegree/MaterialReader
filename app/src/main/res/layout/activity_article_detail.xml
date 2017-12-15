@@ -1,25 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/up_container"
-        android:background="@android:color/transparent"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+        <FrameLayout
+            android:id="@+id/article_detail_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-        <ImageButton
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:id="@+id/action_up"
-            android:layout_width="56dp"
-            android:layout_height="?actionBarSize"
-            android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="@string/up"
-            android:src="@drawable/ic_arrow_back" />
-    </FrameLayout>
-</FrameLayout>
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/detail_toolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            android:background="?colorPrimary"
+            android:elevation="8dp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/detail_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/list_toolbar_side_margin"
+                android:layout_marginRight="@dimen/list_toolbar_side_margin"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
