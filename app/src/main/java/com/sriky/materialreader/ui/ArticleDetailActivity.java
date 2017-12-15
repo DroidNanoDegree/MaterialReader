@@ -59,4 +59,8 @@ public class ArticleDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void setAppBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 }
