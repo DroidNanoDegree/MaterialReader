@@ -4,11 +4,14 @@
     <dimen name="detail_body_text_size">22sp</dimen>
     <item name="detail_body_line_spacing_multiplier" format="float" type="fraction">1.25</item>
 
-    <dimen name="fab_elevation">2dp</dimen>
+    <dimen name="fab_elevation">4dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="detail_backdrop_height">112dp</dimen>
     <dimen name="article_list_item_thumbnail_height">250dp</dimen>
     <dimen name="app_bar_height">56dp</dimen>
+    <dimen name="share_floating_action_button_width">56dp</dimen>
+    <dimen name="share_floating_action_button_height">56dp</dimen>
+    <dimen name="article_detail_viewgroup_margin_top">72dp</dimen>
 
 </resources>
