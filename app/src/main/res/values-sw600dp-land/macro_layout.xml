@@ -1,7 +1,11 @@
 <resources>
     <!-- detail -->
     <bool name="detail_is_card">true</bool>
-
     <dimen name="detail_photo_height">600dp</dimen>
     <dimen name="detail_card_top_margin">256dp</dimen>
+
+    <!-- master list -->
+    <dimen name="article_list_container_width">400dp</dimen>
+    <dimen name="list_side_margin">8dp</dimen>
+    <integer name="list_column_count">2</integer>
 </resources>
