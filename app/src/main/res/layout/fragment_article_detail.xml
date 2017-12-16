@@ -39,19 +39,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/article_detail_viewgroup_margin_top"
-                android:background="#CC000000">
+                android:background="@color/articleDetailBackgroundColor">
 
                 <LinearLayout
                     android:id="@+id/meta_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#333"
+                    android:background="@color/articleDetailHeaderBackgroundColor"
                     android:orientation="horizontal"
                     android:padding="@dimen/detail_metabar_vert_padding">
 
                     <TextView
                         android:id="@+id/article_author"
-                        style="?android:attr/textAppearanceLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -60,7 +59,6 @@
 
                     <TextView
                         android:id="@+id/article_date"
-                        style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -75,13 +73,12 @@
 
                     <TextView
                         android:id="@+id/article_body"
-                        style="?android:attr/textAppearanceMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
                         android:padding="4dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                        android:textColorLink="@color/theme_accent" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColorLink="?colorAccent" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"
