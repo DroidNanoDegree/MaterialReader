@@ -40,7 +40,6 @@ dependencies {
 
     /* OkHttp */
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
-    implementation files('libs/volley.jar')
 
     /* Timber dependencies used for logging */
     implementation 'com.jakewharton.timber:timber:4.6.0'
