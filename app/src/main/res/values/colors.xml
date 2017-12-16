@@ -1,10 +1,19 @@
 
 <resources>
-    <color name="photo_placeholder">#ccc</color>
+    <color name="primaryColor">#aa00ff</color>
+    <color name="primaryLightColor">#e254ff</color>
+    <color name="primaryDarkColor">#7200ca</color>
+    <color name="secondaryColor">#607d8b</color>
+    <color name="secondaryLightColor">#8eacbb</color>
+    <color name="secondaryDarkColor">#34515e</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+    <color name="windowBackgroundColor">#1b1b1b</color>
+    <color name="articleDetailBackgroundColor">#99000000</color>
+    <color name="articleDetailHeaderBackgroundColor">#33e254ff</color>
 
-    <color name="theme_primary">#04561A</color>
-    <color name="theme_primary_dark">#04561A</color>
-    <color name="theme_accent">#04561A</color>
-    <color name="ltgray">#ffe0e0e0</color>
-    <color name="section_divider_color">#000000</color>
+
+    <color name="photo_placeholder">@color/secondaryLightColor</color>
+
+    <color name="section_divider_color">@color/secondaryDarkColor</color>
 </resources>
