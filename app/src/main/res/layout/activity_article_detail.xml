@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
             android:background="?colorPrimary"
-            android:elevation="8dp"
+            android:elevation="4dp"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
