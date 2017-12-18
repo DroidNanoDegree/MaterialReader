@@ -18,6 +18,7 @@ package com.sriky.materialreader.adaptor;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -29,6 +30,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.sriky.materialreader.R;
+import com.sriky.materialreader.customview.DynamicHeightNetworkImageView;
+import com.sriky.materialreader.customview.ImageLoaderHelper;
 import com.sriky.materialreader.data.ArticleLoader;
 import com.sriky.materialreader.event.Message;
 
@@ -103,19 +106,20 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
                         DateUtils.getRelativeTimeSpanString(
                                 publishedDate.getTime(),
                                 System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                                DateUtils.FORMAT_ABBREV_ALL).toString()
-                                + "<br/>"));
+                                DateUtils.FORMAT_ABBREV_ALL).toString()));
             } else {
                 holder.articleDateView.setText(Html.fromHtml(
-                        outputFormat.format(publishedDate)
-                                + "<br/>"));
+                        outputFormat.format(publishedDate)));
             }
-            //TODO: Add a11y support!
-            Picasso.with(mContext)
-                    .load(Uri.parse(mCursor.getString(ArticleLoader.Query.THUMB_URL)))
-                    //.placeholder(R.drawable.ic_cake_loading)
-                    //.error(R.drawable.ic_error_pink)
-                    .into( holder.thumbnailView);
+
+            holder.thumbnailView.setImageUrl(
+                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
+                    ImageLoaderHelper.getInstance(mContext).getImageLoader());
+            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+            holder.thumbnailView.setContentDescription(mCursor.getString(ArticleLoader.Query.TITLE));
+
+            //resize the scrim.
+            holder.scrimView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
 
             //notify that data was loaded and pass the articleId so that ArticleActivity can
             //load the details fragment for tablets.
@@ -135,10 +139,11 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView thumbnailView;
+        public DynamicHeightNetworkImageView thumbnailView;
         public TextView titleView;
         public TextView articleAuthorView;
         public TextView articleDateView;
+        public DynamicHeightNetworkImageView scrimView;
 
         public ViewHolder(View view) {
             super(view);
@@ -146,6 +151,7 @@ public class ArticleListAdaptor extends RecyclerView.Adapter<ArticleListAdaptor.
             titleView = view.findViewById(R.id.article_title);
             articleAuthorView = view.findViewById(R.id.article_author);
             articleDateView = view.findViewById(R.id.article_date);
+            scrimView = view.findViewById(R.id.view);
             view.setOnClickListener(this);
         }
 

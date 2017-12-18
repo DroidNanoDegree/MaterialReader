@@ -3,10 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
+    android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground">
@@ -15,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.sriky.materialreader.customview.DynamicHeightNetworkImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/article_list_item_thumbnail_height"
@@ -28,10 +25,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Scrim -->
-        <View
+        <com.sriky.materialreader.customview.DynamicHeightNetworkImageView
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/article_list_item_thumbnail_height"
+            android:layout_height="match_parent"
             android:background="@drawable/article_list_scrim"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +56,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="2dp"
             android:layout_marginEnd="2dp"
             android:layout_marginStart="2dp"
             android:textAlignment="center"
@@ -72,14 +68,12 @@
             android:id="@+id/article_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:layout_marginBottom="2dp"
             android:layout_marginEnd="2dp"
             android:layout_marginStart="2dp"
-            android:ellipsize="end"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/article_author"
             app:layout_constraintStart_toStartOf="@+id/article_author" />
 
