@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
@@ -141,9 +142,14 @@ public class ArticleDetailFragment extends Fragment implements
 
     private void setArticleBodyContent() {
         new AsyncTask<Void, Void, String>() {
-
+            Snackbar mSnackbar;
             @Override
             protected void onPreExecute() {
+                 mSnackbar = Snackbar
+                        .make(mFragmentArticleDetailBinding.getRoot(),
+                                getContext().getResources().getString(R.string.loading_data), Snackbar.LENGTH_LONG);
+
+                mSnackbar.show();
                 mFragmentArticleDetailBinding.progressBar.setVisibility(View.VISIBLE);
             }
 
@@ -155,6 +161,9 @@ public class ArticleDetailFragment extends Fragment implements
 
             @Override
             protected void onPostExecute(String s) {
+                if(mSnackbar != null) {
+                    mSnackbar.dismiss();
+                }
                 mFragmentArticleDetailBinding.progressBar.setVisibility(View.INVISIBLE);
                 if (TextUtils.isEmpty(s)) {
                     Timber.e("Error parsing HTML text!");
