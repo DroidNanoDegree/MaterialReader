@@ -161,6 +161,7 @@ public class ArticleDetailFragment extends Fragment implements
                     return;
                 }
                 mFragmentArticleDetailBinding.articleBody.setText(s);
+                mFragmentArticleDetailBinding.shareFab.setVisibility(View.VISIBLE);
             }
         }.execute();
 
