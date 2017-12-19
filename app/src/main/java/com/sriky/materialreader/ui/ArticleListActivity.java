@@ -4,11 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.sriky.materialreader.R;
 import com.sriky.materialreader.data.UpdaterService;
+import com.sriky.materialreader.databinding.ActivityArticleListBinding;
 import com.sriky.materialreader.event.Message;
 import com.sriky.materialreader.utils.MaterialReaderUtils;
 
@@ -30,6 +33,9 @@ public class ArticleListActivity extends AppCompatActivity {
     private boolean mTwoPane = false;
     private boolean mCanUpdateDetailsFragment;
     private long mPreviousSelectedArticleId = 0;
+    private ActivityArticleListBinding mActivityArticleListBinding;
+    private ArticleListFragment mArticleListFragment;
+    private Snackbar mRefreshingSnackbar;
 
     private BroadcastReceiver mRefreshingReceiver = new BroadcastReceiver() {
         @Override
@@ -44,7 +50,8 @@ public class ArticleListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article_list);
+        mActivityArticleListBinding = DataBindingUtil.setContentView(ArticleListActivity.this,
+                R.layout.activity_article_list);
 
         mTwoPane = getResources().getBoolean(R.bool.isTablet);
         if (savedInstanceState == null) {
@@ -52,8 +59,9 @@ public class ArticleListActivity extends AppCompatActivity {
             refresh();
 
             //add ArticleListFragment.
+            mArticleListFragment = new ArticleListFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.article_list_container, new ArticleListFragment())
+                    .add(R.id.article_list_container, mArticleListFragment)
                     .commit();
 
             //flag to make sure details fragment isn't updated after configuration change.
@@ -63,7 +71,10 @@ public class ArticleListActivity extends AppCompatActivity {
         }
     }
 
-    private void refresh() {
+    public void refresh() {
+        mRefreshingSnackbar = Snackbar.make(mActivityArticleListBinding.getRoot(),
+                getString(R.string.fetching_data), Snackbar.LENGTH_INDEFINITE);
+        mRefreshingSnackbar.show();
         startService(new Intent(this, UpdaterService.class));
     }
 
@@ -89,8 +100,12 @@ public class ArticleListActivity extends AppCompatActivity {
     }
 
     private void updateRefreshingUI() {
-        //TODO: This operation should occur in the articlelistfragment.
-        Timber.e("TODO: Operation!");
+        if(mRefreshingSnackbar != null && !mIsRefreshing) {
+            mRefreshingSnackbar.dismiss();
+        }
+        if(mArticleListFragment != null) {
+            mArticleListFragment.updateSwipeRefresh(mIsRefreshing);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
