@@ -73,7 +73,7 @@ public class ArticleListActivity extends AppCompatActivity {
 
     public void refresh() {
         mRefreshingSnackbar = Snackbar.make(mActivityArticleListBinding.getRoot(),
-                getString(R.string.fetching_data), Snackbar.LENGTH_INDEFINITE);
+                getString(R.string.fetching_data), Snackbar.LENGTH_LONG);
         mRefreshingSnackbar.show();
         startService(new Intent(this, UpdaterService.class));
     }
