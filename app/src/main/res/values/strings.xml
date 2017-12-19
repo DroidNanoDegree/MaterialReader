@@ -9,5 +9,6 @@
 
     <string name="up">Up</string>
     <string name="loading_data">Loading data, please wait...</string>
+    <string name="fetching_data">Fetching data, please wait...</string>
 
 </resources>
